@@ -2,13 +2,8 @@
 
 define(BOT_TOKEN, "1249263923:AAFFIEkgyBn4231aPE7CdjIcfTG2q9Rqf0g");
 
-function sendMessage($chat_id, $text, $reply_to = FALSE) {
-	$text = urlencode($text);
-	$url = "https://api.telegram.org/bot" . BOT_TOKEN . "/sendMessage?chat_id=$chat_id&text=$text&reply_to_message_id=$reply_to";
-	return file_get_contents($url);
-}
-
 function restrictUser($chat_id, $user_id, $permissions, $ban_until) {
+	$permissions = urlencode(json_encode($permissions));
 	$url = "https://api.telegram.org/bot" . BOT_TOKEN . "/restrictChatMember?chat_id=$chat_id&user_id=$user_id&permissions=$permissions&until_date=$ban_until";
 	return file_get_contents($url);
 }
@@ -32,8 +27,6 @@ $permissions = array(
 	"can_invite_users" => false,
 	"can_pin_messages" => false,
 );
-
-$json_permissions = urlencode(json_encode($permissions));
 
 if (isset($input_arr["message"]["new_chat_participant"])) {
 	restrictUser($chat_id, $user_id, $json_permissions, $ban_until);
