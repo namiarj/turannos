@@ -29,7 +29,7 @@ $permissions = array(
 );
 
 if (isset($input_arr["message"]["new_chat_participant"])) {
-	restrictUser($chat_id, $user_id, $json_permissions, $ban_until);
+	restrictUser($chat_id, $user_id, $permissions, $ban_until);
 }
 
 return 0;
